@@ -1,0 +1,50 @@
+<!--Admin approval section start-->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="card" style="width:200px; height: 400px;">
+        <img class="card-img-top" src="../../../assets/img/user.jfif" alt="Card image" style="width:100%">
+      </div>
+    </div>
+    <div class="col-sm-10">
+      <div class="container">
+        <h4>Customer Claim Details</h4>
+        <table class="table table-bordered table-dark table-striped">
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Diseas Name</th>
+              <th>Limit Amount</th>
+              <th>Admission Date</th>
+              <th>Discharge Date</th>
+              <th>Claim Amount</th>
+              <th colspan="2" style="text-align: center;">Actions</th>
+              <th>Comments</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let claimDetail of claimDetails">
+              <td>{{claimDetail.patientName}}</td>
+              <td>{{claimDetail.diseaseName}}</td>
+              <td>{{claimDetail.limitAmount}}</td>
+              <td>{{claimDetail.admissionDate}}</td>
+              <td>{{claimDetail.dischargedDate}}</td>
+              <td>{{claimDetail.claimAmount}}</td>
+              <td><button type="button" (click)="approvalStatus('APPROVED', claimDetail.claimId)"
+                  class="btn btn-primary">Approve</button>
+              </td>
+              <td><button type="button" (click)="approvalStatus('REJECTED', claimDetail.claimId)"
+                  class="btn btn-primary">Reject</button>
+              </td>
+              <!-- <td><button type="button" (click)="approvalStatus('APPROVED')" class="btn btn-primary">Refer Back</button></td> -->
+              <td><textarea [(ngModel)]="approverComment" class="form-control" rows="2" id="comment"></textarea></td>
+              <td>{{claimDetail.apprStatus}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Admin approval section end-->

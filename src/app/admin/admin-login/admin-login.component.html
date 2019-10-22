@@ -1,0 +1,60 @@
+<!-- Container start-->
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center text-white mb-4">Login Form</h2>
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+
+          <!-- Login form start -->
+          <div class="card rounded-0">
+            <div class="card-header">
+              <h3 class="mb-0">Login Here</h3>
+            </div>
+            <div class="card-body">
+              <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="adminLogin(loginForm.value)"
+                autocomplete="off" id="formLogin" novalidate="" method="POST">
+                <div class="form-group"
+                  [ngClass]="{'has-error': loginForm.get('adminName').errors && (loginForm.get('adminName').touched || loginForm.get('adminName').dirty)}">
+                  <label for="uname1" for="adminName">Username</label>
+                  <input type="text" formControlName="adminName" class="form-control form-control-lg rounded-0"
+                    id="adminName">
+                  <span class="help-block"
+                    *ngIf="loginForm.get('adminName').errors && (loginForm.get('adminName').touched || loginForm.get('adminName').dirty)">
+                    <span style="color: red;" *ngIf="loginForm.get('adminName').errors.required"> Full name is
+                      required</span>
+                  </span>
+                </div>
+                <div class="form-group"
+                  [ngClass]="{'has-error': loginForm.get('adminName').errors && (loginForm.get('adminName').touched || loginForm.get('adminName').dirty)}">
+                  <label>Password</label>
+                  <input type="password" formControlName="adminPassword" class="form-control form-control-lg rounded-0"
+                    autocomplete="new-password">
+                  <span class="help-block"
+                    *ngIf="loginForm.get('adminPassword').errors && (loginForm.get('adminPassword').touched || loginForm.get('adminPassword').dirty)">
+                    <span style="color: red;" *ngIf="loginForm.get('adminPassword').errors.required"> Password
+                      required</span>
+                    <span style="color: red;" *ngIf="loginForm.get('adminPassword').errors.minlegth"> Minimum length is
+                      6
+                      characters </span>
+                  </span>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg float-right" id="btnLogin">Login</button>
+              </form>
+            </div>
+          </div>
+          <!-- Login form end -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container end-->
+
+<div class="alert alert-success alert-dismissible" *ngIf="showAlert">
+  <strong>Success alert!</strong>
+  <button type="button" class="close" data-dismiss="alert">
+    ×
+  </button>
+</div>

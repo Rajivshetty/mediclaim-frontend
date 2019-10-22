@@ -1,0 +1,74 @@
+<!-- Reister Claim start-->
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-10 mx-auto">
+      <h4> Enter The Details To Register Your Claim</h4>
+      <hr>
+      <form [formGroup]="claimDetails" (ngSubmit)="policyClaimInitiate(claimDetails.value)">
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="inputLastname">User ID</label>
+            <input type="text" formControlName="userId" class="form-control" id="userId" placeholder="User ID">
+          </div>
+          <div class="col-sm-6">
+            <label for="admissiondate">Date of Admission</label>
+            <input type="date" data-date-format="YYYY/MM/DD" formControlName="admissionDate" class="form-control"
+              id="admissiondate" placeholder="Admission Date">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="name">Patient Name</label>
+            <input type="text" formControlName="patientName" class="form-control" id="name" placeholder="Name">
+          </div>
+          <div class="col-sm-6">
+            <label for="discharge">Discharge Date</label>
+            <input type="date" data-date-format="YYYY/MM/DD" formControlName="dischargedDate" class="form-control"
+              id="discharge" placeholder="Discharge Date">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="diagnosis">Diagnosis</label>
+            <select class="form-control" formControlName="diseaseId" id="diagnosis">
+              <!-- <option>1</option>
+              <option>2</option>
+              <option>3</option> -->
+              <option *ngFor="let dises of diseasList" [value]="dises.diseaseId">{{dises.diseaseName}}</option>
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <label for="amount">Total Claim Amount</label>
+            <input type="number" formControlName="claimAmount" class="form-control" id="amount"
+              placeholder="Claim Amount">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="inputState">Hospital Name</label>
+            <select class="form-control" formControlName="hospitalId" id="hospitalId">
+              <option *ngFor="let hospitals of hospitalsListData" [value]="hospitals.hospitalId">
+                {{hospitals.hospitalName}}
+              </option>
+            </select>
+          </div>
+          <!-- <div class="col-sm-6">
+            <label for="summary">Upload Documents</label>
+            <div class="custom-file">
+              <input type="file" formControlName="dischargeSummary" class="custom-file-input" id="customFile">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-primary px-4 float-right"
+            (click)="policyClaimInitiate(claimDetails.value)">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Reister Claim end-->
