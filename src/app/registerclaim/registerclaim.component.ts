@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ClaimDataService } from '../claim-data.service';
+import { ClaimDataService } from '../services/claim-data.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
+import { MessageService } from 'primeng/components/common/messageservice';
+
 @Component({
   selector: 'app-registerclaim',
   templateUrl: './registerclaim.component.html',
-  styleUrls: ['./registerclaim.component.css']
+  styleUrls: ['./registerclaim.component.css'],
+  providers: [MessageService]
 })
 export class RegisterclaimComponent implements OnInit {
 
   hospitalsListData: any = [];
   diseasList: any;
+  baseUrl: string;
+  policyNumber: number;
 
-  /*Reactive form to claim details start*/
+  /*Reactive form to claim details */
   claimDetails = new FormGroup({
-    userId: new FormControl(''),
-    patientName: new FormControl(''),
+    policyNo: new FormControl(''),
+    patientName: new FormControl('', [Validators.required]),
     diseaseId: new FormControl('', [Validators.required]),
     admissionDate: new FormControl('', [Validators.required]),
     dischargedDate: new FormControl('', [Validators.required]),
@@ -23,42 +30,51 @@ export class RegisterclaimComponent implements OnInit {
     claimAmount: new FormControl('', [Validators.required])
     // dischargeSummary: new FormControl('', [Validators.required]),
   });
-  /*Reactive form to claim details end*/
-  constructor(private claimDataService: ClaimDataService, private router: Router) { }
+
+  maxDate = moment(new Date()).format('YYYY-MM-DD')
+
+  constructor(private claimDataService: ClaimDataService, private router: Router, private messageService: MessageService) {
+    this.baseUrl = environment.baseApiUrl;
+  }
 
   ngOnInit() {
+    this.policyNumber = parseInt(this.claimDataService.getPolicyNo());
+    console.log('this.policyNumber', this.policyNumber);
     this.getHospitalsList();
     this.getDiseasList();
   }
 
-  /* To get Hospital List method start*/
+  /* Method to get list of registered hospitals in the form drop down*/
   getHospitalsList() {
-    this.claimDataService.getListOfHospitals()
+    this.claimDataService.httpGetRequest(this.baseUrl + 'hospitals')
       .subscribe(data => {
         this.hospitalsListData = data;
         console.log('hospitalsList---', this.hospitalsListData);
       }, error => console.log('Error  getting Hospital List...'))
 
   }
-  /* To get Hospital List method end*/
 
-  /* To get Diseas List method start*/
+  /* Method to get list of diseases in the form drop down*/
   getDiseasList() {
-    this.claimDataService.getListOfDiseas()
+    this.claimDataService.httpGetRequest(this.baseUrl + 'diseases')
       .subscribe(data => {
         this.diseasList = data
         console.log('getDiseasList---', this.diseasList);
       }, error => console.log('Error  getting Diseas List...'))
 
   }
-  /* To get Diseas List method end*/
 
-  /* Policy Claim Initiate method start*/
+  /* Method to Initiate the policy claim */
   policyClaimInitiate(policyRegisterDetails) {
+    let admissonDate = Date.parse(policyRegisterDetails.admissionDate);
+    let dischargeDate = Date.parse(policyRegisterDetails.dischargedDate);
+    if (admissonDate > dischargeDate) {
+      this.messageService.add({ severity: 'error', detail: 'Discharge date should not be less then admission date' })
+    }
     console.log('claimDetails', this.claimDetails);
     alert('Policy Register');
     const policyDetails = {
-      "userId": parseInt(policyRegisterDetails.userId),
+      "userId": parseInt(policyRegisterDetails.policyNo),
       "patientName": policyRegisterDetails.patientName,
       "diseaseId": parseInt(policyRegisterDetails.diseaseId),
       "admissionDate": policyRegisterDetails.admissionDate,
@@ -66,11 +82,10 @@ export class RegisterclaimComponent implements OnInit {
       "hospitalId": parseInt(policyRegisterDetails.hospitalId),
       "claimAmount": policyRegisterDetails.claimAmount
     }
-    this.claimDataService.policyClaimRegister(policyDetails).subscribe((response) => {
+    this.claimDataService.httpPostRequest(this.baseUrl + 'claims', policyDetails).subscribe((response) => {
       console.log('response ', response);
-      // this.router.navigateByUrl("/home");
+      this.router.navigateByUrl("/home");
     });
   }
-  /* Policy Claim Initiate method end*/
 
 }

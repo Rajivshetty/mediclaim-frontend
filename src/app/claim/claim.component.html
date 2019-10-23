@@ -1,4 +1,6 @@
-<!-- Enter Policy ID start -->
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<!-- Enter Policy Details start -->
 <div class="container-fluid h-100 bg-light text-dark">
   <div class="row justify-content-center align-items-center">
     <h3>Enter Your Details</h3>
@@ -8,21 +10,37 @@
     <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
       <form action="" [formGroup]="policyDetails" (ngSubmit)="policyClaim(policyDetails.value)">
         <div class="form-group">
-          <label>Policy Number:</label>
+          <label for="policyNo">Policy Number:</label>
           <input type="text" formControlName="policyNo" class="form-control" />
+          <span class="help-block"
+            *ngIf="policyDetails.get('policyNo').errors && (policyDetails.get('policyNo').touched || policyDetails.get('policyNo').dirty)">
+            <span style="color: red;" *ngIf="policyDetails.get('policyNo').errors.required"> Policy Number is
+              required</span>
+          </span>
         </div>
         <div class="form-group">
-          <label>Aadhar Number:</label>
+          <label for="aadharNo">Aadhar Number:</label>
           <input type="number" formControlName="aadharNo" class="form-control" />
+          <span class="help-block"
+            *ngIf="policyDetails.get('aadharNo').errors && (policyDetails.get('aadharNo').touched || policyDetails.get('aadharNo').dirty)">
+            <span style="color: red;" *ngIf="policyDetails.get('aadharNo').errors.required"> Aadhaar Number is
+              required</span>
+          </span>
         </div>
         <div class="form-group">
-          <label>Date Of Birth:</label>
-          <input type="date" data-date-format="YYYY/MM/DD" formControlName="dob" class="form-control" />
+          <label for="dob">Date Of Birth:</label>
+          <input type="date" [max]="maxDate" formControlName="dob" class="form-control" />
+          <span class="help-block"
+            *ngIf="policyDetails.get('dob').errors && (policyDetails.get('dob').touched || policyDetails.get('dob').dirty)">
+            <span style="color: red;" *ngIf="policyDetails.get('dob').errors.required"> Date Of Birth is
+              required</span>
+          </span>
         </div>
         <div class="form-group">
           <div class="container">
             <div class="row">
-              <div class="col"><button class="col-6 btn btn-primary btn-sm float-right">Submit</button></div>
+              <div class="col"><button [disabled]="!policyDetails.valid"
+                  class="col-6 btn btn-primary btn-sm float-right">Submit</button></div>
             </div>
           </div>
         </div>
@@ -30,4 +48,4 @@
     </div>
   </div>
 </div>
-<!-- Enter Policy ID end -->
+<!-- Enter Policy Details end -->

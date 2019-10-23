@@ -1,4 +1,6 @@
-<!-- Container start-->
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<!-- Admin form login Container start-->
 <div class="container py-5">
   <div class="row">
     <div class="col-md-12">
@@ -16,7 +18,7 @@
                 autocomplete="off" id="formLogin" novalidate="" method="POST">
                 <div class="form-group"
                   [ngClass]="{'has-error': loginForm.get('adminName').errors && (loginForm.get('adminName').touched || loginForm.get('adminName').dirty)}">
-                  <label for="uname1" for="adminName">Username</label>
+                  <label for="adminName" for="adminName">Username</label>
                   <input type="text" formControlName="adminName" class="form-control form-control-lg rounded-0"
                     id="adminName">
                   <span class="help-block"
@@ -27,7 +29,7 @@
                 </div>
                 <div class="form-group"
                   [ngClass]="{'has-error': loginForm.get('adminName').errors && (loginForm.get('adminName').touched || loginForm.get('adminName').dirty)}">
-                  <label>Password</label>
+                  <label for="adminPassword">Password</label>
                   <input type="password" formControlName="adminPassword" class="form-control form-control-lg rounded-0"
                     autocomplete="new-password">
                   <span class="help-block"
@@ -39,7 +41,8 @@
                       characters </span>
                   </span>
                 </div>
-                <button type="submit" class="btn btn-success btn-lg float-right" id="btnLogin">Login</button>
+                <button type="submit" [disabled]="!loginForm.valid" class="btn btn-success btn-lg float-right"
+                  id="btnLogin">Login</button>
               </form>
             </div>
           </div>
@@ -50,11 +53,4 @@
     </div>
   </div>
 </div>
-<!-- Container end-->
-
-<div class="alert alert-success alert-dismissible" *ngIf="showAlert">
-  <strong>Success alert!</strong>
-  <button type="button" class="close" data-dismiss="alert">
-    ×
-  </button>
-</div>
+<!--  Admin form login Container end-->

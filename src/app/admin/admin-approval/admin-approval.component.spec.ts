@@ -4,6 +4,7 @@ import { AdminApprovalComponent } from './admin-approval.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
 
 describe('AdminApprovalComponent', () => {
   let component: AdminApprovalComponent;
@@ -12,7 +13,11 @@ describe('AdminApprovalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AdminApprovalComponent],
-      imports: [FormsModule, HttpClientModule]
+      imports: [
+        FormsModule,
+        HttpClientModule,
+        ToastModule
+      ]
     })
       .compileComponents();
   }));

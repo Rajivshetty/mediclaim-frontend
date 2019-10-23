@@ -1,46 +1,56 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ClaimDataService } from '../../claim-data.service';
+import { ClaimDataService } from '../../services/claim-data.service';
+
+import { MessageService } from 'primeng/components/common/messageservice';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
-  styleUrls: ['./admin-login.component.css']
+  styleUrls: ['./admin-login.component.css'],
+  providers: [MessageService]
 })
 export class AdminLoginComponent implements OnInit {
 
-  adminDetails: any;
   showAlert: boolean = false;
+  login: boolean = false;
+  baseUrl: String;
 
-  /* Reactive form admin login form start*/
+  /* Reactive form for admin login */
   loginForm = new FormGroup({
     adminName: new FormControl('', [Validators.required]),
     adminPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
-  /* Reactive form admin login form end*/
 
-  constructor(private claimDataService: ClaimDataService, private router: Router) { }
+  constructor(private claimDataService: ClaimDataService, private router: Router, private messageService: MessageService) {
+    this.baseUrl = environment.baseApiUrl;
+  }
 
   ngOnInit() {
+
   }
 
-  /* Admin login start */
-  adminLogin(adminCredentials) {
+  /* Admin login method to approve claim  */
+  adminLogin(adminCredentials: Object) {
     console.log('Admin Data', adminCredentials);
-    this.claimDataService.login(adminCredentials)
+    this.claimDataService.httpPostRequest(this.baseUrl + '/login', adminCredentials)
       .subscribe(data => {
-        this.adminDetails = data
-        console.log('User Form Data', this.adminDetails);
-        this.showAlert = !this.showAlert;
-        if (this.loginForm.value.adminName == "Mahesh" && this.loginForm.value.adminPassword == "mahesh") {
-          alert('Logged in Successfully');
+        console.log('Response Data', data);
+        if (this.loginForm.value.adminName == data['adminName']) {
+          console.log('data[adminName]', data['adminName']);
+          console.log('this.loginId', data['roleId']);
           this.router.navigateByUrl("/adminApproval");
+          this.claimDataService.setLoginId(data['roleId']);
         } else {
-          alert('Login failed')
         }
-      }, error => console.log('Given Details Not Matching...'));
+      }, error => {
+        this.messageService.add({ severity: 'error', detail: error.error.message })
+      }
+
+      );
   }
-  /* Admin login end */
+
 
 }

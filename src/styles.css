@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 .navbg{
     background-color:#FE7A22;
 }
@@ -11,3 +12,27 @@
     color: white;
     text-align: center;
   }
+
+  .alert{
+      width: 50%;
+      display: block;
+      margin-right: auto;
+      margin-left: auto;
+      margin-top: 50px;
+  }
+
+  :host ::ng-deep button {
+    margin-right: .25em;
+}
+
+:host ::ng-deep .custom-toast .ui-toast-message {
+    color: #ffffff;
+    background: #FC466B;
+    background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+    background: linear-gradient(to right, #3F5EFB, #FC466B);
+}
+
+:host ::ng-deep .custom-toast .ui-toast-close-icon {
+    color: #ffffff;
+}
+

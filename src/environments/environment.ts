@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseApiUrl: 'http://10.117.189.94:9093/MedicalClaim/api/'
 };
 
 /*
